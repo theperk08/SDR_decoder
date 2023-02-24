@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+Créé le 03 fev 2023
 
-
+@author: manu_musy
+"""
 
 # POUR DECODAGES SPECIFIQUES DES MESSAGES AVEC LABELS
 
@@ -10,11 +13,14 @@
 #en entrée : array : label + message
 #sortie : array : description label + message décodé/interprété
 
+# SET UP the file location
 
-fich_label = open("C:/Users/thepe/Documents/RTL-SDR/Prog_RTL_SDR/Labels_Codes.txt","r")
+fich_label = open("Labels_Codes.txt","r")
+#---------------------------------
+
 
 lignes = fich_label.readlines()
-labels =[]
+labels = []
 labels_mess = []
 for ligne in lignes:
     l1, l2 = ligne.split(":")
@@ -74,15 +80,15 @@ def label44(texte):
       
     
     mess_clair  = ''
-    numero=int(texte[1])
+    numero = int(texte[1])
     # PROBLEME AVEC MESSAGE CONTENANT DES \ : texte = str.replace(texte,'\\','\\\\')
     
-    for k in range(len(texte)-2):
+    for k in range(len(texte) - 2):
         try:
-            mess_clair += alpha_clair[alpha_cry[numero].index(texte[k+2])]
+            mess_clair += alpha_clair[alpha_cry[numero].index(texte[k + 2])]
         except:
-            mess_clair +=' '
-    if len(texte)>56 and texte[56]==' ':
+            mess_clair += ' '
+    if len(texte) > 56 and texte[56] == ' ':
         mess_clair = mess_clair[:57]
         
     return mess_clair
@@ -112,7 +118,7 @@ def labelH1(texte):
     try:
         retour += prov[prov_let.index(texte[1:3])]
     except:
-        retour +=' '
+        retour += ' '
     if texte[3] == 'A':
         retour += ' : conventional'
     if texte[3] == 'B':
@@ -122,7 +128,7 @@ def labelH1(texte):
     try:
         retour += info[info_let.index(txt2)]
     except:
-        retour +=' '
+        retour += ' '
 
     return retour
 
