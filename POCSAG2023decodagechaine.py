@@ -3,12 +3,10 @@
 """
 Créé le 28 déc 2018
 
-@author: manum
+@author: manu_musy
 """
 
 import sys
-#try: color = sys.stdout.shell
-#except AtributeError: raise RuntimeError("Use IDLE")
 from datetime import datetime
 from datetime import date
 
@@ -44,6 +42,13 @@ Code couleur de color.write:
 
 """
 
+# SET UP your path and generic name for the html file to record
+
+PATH = "C:/Users/thepe/Documents/RTL-SDR/Enregistrements_Python/"
+POCSAG_RECORD = "POCSAG_signal_"
+
+#-----------------------
+
 entete = "01111100110100100001010111011000"
 entete_infirmier = "10101010101010101010101011010010"
 idle_fr = "01111010100010011100000110010111"
@@ -59,7 +64,6 @@ tablec="0123456789*U -)("
 typemessage=["Numérique","null1","null2","Message"]
 couleur=["COMMENT","COMMENT","COMMENT","STRING"]
 
-direc="C:/Users/thepe/Documents/RTL-SDR/Enregistrements_Python/"
 
 def decibin(nbd):
     #prend un entier nbd (entre 0 et 7) et le convertit en chaine binaire sur 3 bits : exemple : 3-> "011"
@@ -222,7 +226,7 @@ def affichage_html(retour, infobulle, rb3, date1):
 
 
 def enregistre_fichier(chaine, date1):
-    fichier=open(direc+"POCSAG_signal_"+str(date1)+".html","a")
+    fichier = open(PATH + POCSAG_RECORD + str(date1) + ".html","a")
     fichier.write(chaine)
     fichier.close()
     
@@ -285,8 +289,7 @@ def decodagepocsag(chaine, idle, rb3):
         if len(message)>0:
             
             retour = decomess(message,tpms)
-            
-            
+                        
             infobulle = "&#013"+retour[1]+"&#013"
 
             #teste les 7 décodages possibles alphanumériques (en décalant simplement le bit de départ
@@ -330,8 +333,7 @@ def decodagepocsag(chaine, idle, rb3):
             enregistre_fichier(st2, date1)
                     
             return st2,date_affiche
-            
-                
+                            
         else:
             return '<br>',''
                           
