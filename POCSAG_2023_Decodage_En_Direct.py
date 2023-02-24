@@ -3,25 +3,23 @@
 """
 Créé le 28 déc 2018
 
-@author: manum
+@author: manu_musy
 """
 
 #*** -------------- POUR DECODAGE EN DIRECT AVEC CUBIC SDR
 
-#import wave
 import sys
-
-#import struct 
-#import math 
 from datetime import datetime
-
 from scipy.io.wavfile import read, write
 import numpy as np
-#from scipy import signal
-
 import POCSAG2023decodagechaine as pcs
 
-direc="C:/Users/thepe/Documents/RTL-SDR/Enregistrements_Python/"
+# SET UP your path and generice name for the audio record file
+
+PATH="C:/Users/thepe/Documents/RTL-SDR/Enregistrements_Python/"
+POCSAG_RECORD = "_enreg_analyse_POCSAG_"
+
+#------------------------------------
 
 RATE = 48000
 SPEED1 = 2400
@@ -210,7 +208,7 @@ def lancePOC(stream1,sample_c1,rb,rb2,rb3):
             chainefic=np.fromstring(chaine0, np.int16)
             if rb2.GetSelection() == 0:
                  #chainefic=np.fromstring(chaine0, np.int16)
-                 write(direc+str(datetime.today())[:10]+"_enreg_analyse_POCSAG_"+str(nfich)+"f.wav",RATE,chainefic)
+                 write(PATH + str(datetime.today())[:10] + POCSAG_RECORD + str(nfich)+".wav",RATE,chainefic)
                         
 
             chaine=""
@@ -253,175 +251,4 @@ def lancePOC(stream1,sample_c1,rb,rb2,rb3):
         if rb.GetSelection()==0:
             fini=True
             return ''
-
-
-#---------- ANCIENNE VERSION
-def lancePOC2(stream1,sample_c1,rb,rb2):
-     
-    ab=0
-    trouve=False
-
-    while trouve==False:
-
-        try: 
-         chaine0=stream1.read(sample_c1) 
-        except IOError: 
-         print("Error Recording") 
-    
-        seuil=0
-
-        liste=chaine0
-        #print(len(liste))
-        
-        global nfich
-
-        zeros=0
-        uns=0
-        zero=True
-
-        chaine=""
-        chainenot=""
-
-        #a priori ce sont les valeurs de rang impaire de liste qui donnent la hauteur
-        # de 0 à 125 = 0
-        # de 126 à 254 = 1
-
-        # TRAITEMENT 
-
-        #on recherche d'abord la fréquence des premiers 0 et 1
-        test01=[]
-        trouve=False
-
-        for i in range(int(len(liste)/2)-1):
-        
-            valeur=liste[2*i+1]
-           
-            if valeur>0 and valeur<128: #"FE" or valeur=="FF": # si c'est un 0
-                if zero: #et si on en déjà en train de compter des 0
-                    zeros+=1
-                else:
-                    zero=True
-                    zeros=1                    
-                    test01+=[uns]                
-                    uns=0
-            else:
-                
-                if not(zero):
-                    uns+=1
-                else:
-                    zero=False
-                    uns=1
-                    test01+=[zeros]
-                    zeros=0
-
-        #SI A UN MOMENT, ON OBTIENT AU MOINS UN CENTAINE DE VALEURS ALTERNEES IDENTIQUES alors c'est une succession de 0 et de 1
-        freq=80
-        #trouve=True
-        
-        if len(test01)>20: #parfois échantillon trop petit ou inexistant à cause du try error
-            trouve=True
-            for c in range(2,20): 
-                if not(test01[c]>0.85*freq and test01[c]<1.15*freq):
-                    trouve=False
-
-        if trouve:
-            freq=int(test01[2]+test01[3])/2+seuil
-            chaine2=''
-    
-        # Logiquement, on obtient une fréquence de base d'environ 80, donc entre 70 et 90
-
-            try: 
-             chaine0=stream1.read(sample_c1*60) 
-            except IOError: 
-             print("Error Recording")
-            #global nfich
-            nfich+=1
-            if rb2.GetSelection()==0:
-                 chainefic=np.fromstring(chaine0, np.int16)
-                 write(direc+str(datetime.today())[:10]+"_enreg_analyse_POCSAG_"+str(nfich)+"f.wav",RATE,chainefic)
-
-            zeros=0
-            uns=0
-            zero=True
-
-            chaine=""
-            valeur01="01"
-            bit0=True #on commence arbitrairement par un 0, puis on alterne
-
-            
-            #on ne garde que les indices impairs
-            liste=[chaine0[2*k+1] for k in range(int(len(chaine0)/2))]
-            
-            #on lisse (moyenne) les valeurs par tranches de 10 valeurs
-            #liste=[np.mean(liste0[10*i:10*(i+1)]) for i in range(int(len(liste0)/10)) ]
-            #print("liste chaine0")
-            #print(liste)
-
-            zeros=0
-            uns=0
-            zero=True
-
-            chaine=""
-            chainenot=""
-
-            #on recherche d'abord la fréquence des premiers 0 et 1
-            test01=[]
-            
-            #for i in range(int(len(liste)/2)-1):
-            for i in range(len(liste)):
-            
-                #valeur=liste[2*i+1]
-                valeur=liste[i]
-                
-                if valeur>0 and valeur<126: #"FE" or valeur=="FF": # si c'est un 0
-               
-                    if zero: #et si on en déjà en train de compter des 0
-                        zeros+=1
-                    else:
-                        zero=True
-                        zeros=1
-                        test01+=[uns]                    
-                        uns=0
-                else:
-                    
-                    if not(zero):
-                        uns+=1
-                    else:
-                        zero=False
-                        uns=1
-                        test01+=[zeros]
-                        zeros=0
-       
-            freq=80
-            
-            for a in range(0,len(test01)-1): #pour transformer les valeurs en nombre de 0 ou 1 consécutifs
-                #pour trancher aux alentours de 80, on ajoute au nombre initial 40 (la moitié de 80) puis on quotiente par 80
-                nb1=int((test01[a]+int(freq/2))/freq)
-                chaine+=nb1*valeur01[bit0]
-                bit0=not(bit0)
-
-            fini=False            
-      
-            if adentete0 in chaine:
-
-                chaine2=chaine[chaine.index(adentete0)-3:]
-            #Si on a bien une succession de 0 et de 1, reste plus qu'à trouver trouver le début du message
-            if adentete1 in chaine:
-
-                chaine2=chaine[chaine.index(adentete1)-3:]
-                chaine2=chaine2.replace("0","2")
-                chaine2=chaine2.replace("1","0")
-                chaine2=chaine2.replace("2","1")
-
-            print('')
-            print(chaine2)
-            print('')
-            
-            return pcs.decodagepocsag(chaine2)
-        
-        if rb.GetSelection()==0:
-            fini=True
-            return ''
-
-
 
