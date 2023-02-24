@@ -1,0 +1,222 @@
+00 : Emergency situation report
+10 : ARR (ETA) Report, Frequency Change, Request Message, FST Report
+11 : Inrange Arrival Report
+13 : CMU loadsheet uplink
+14 : General Aviation Free Text
+15 : General Aviation Position Report
+16 : Position Report-AUTPOS, General Aviation Weather Request
+17 : Northwest Airlines Position/Weather Report
+18 : General aviation weather report
+19 : ATIS report
+1C : Flight plan request
+1L : Atlantic Coast Airlines/United Express QF OFF message
+1M : Estimated Time of Arrival report
+20 : SAS Initialization
+21 : SAS Takeoff Data calculation
+23 : SAS Loadsheet Uplink
+24 : Northwest Airlines Position/Weather Request
+25 : SAS Special Load Notification
+26 : SAS SIGMET message
+27 : SA Weather Request
+28 : Weather Request
+29 : SAS Flow Message
+2S : Weather request
+2U : Weather
+30 : UPS Position Report
+31 : Northwest Airlines Weather Report
+36 : Northwest Airlines In Range Message
+39 : Northwest Airlines arrival/free text message
+3F : UPS ETA Downlink Message
+3G : UPS Free Text Message Format
+3J : UPS Downlink Message
+3S : UPS Downlink Message
+3U : UPS Uplink acknowledgement
+41 : SAS Flow Message
+44 : Encrypted
+46 : Pirep
+47 : 747-400 Airway Position Downlink
+48 : Misc Msgs
+49 : Air Canada Status Reports
+4A : Air Canada latest new format
+4M : Cargo information
+4P : Weather report/forecast
+4Q : Air Canada departure format
+4R : OFF Air Canada-Specific Message Format
+4S : Weather Request
+4T : ETA Report
+4X : Air Canada Frequency List
+50 : Possible HFDL Msg router
+51 : Ground GMT request response
+52 : AGM Ground UTC request
+53 : Reserved Spare
+54 : Aircrew initiated voice contact request
+57 : AEP Alternate aircrew initiated posit. rpt.
+58 : Aircraft Tracking Control, Aircraft Tracking Periodic Position Report
+5D : TIS ATIS request
+5P : Temporary suspension of ACARS
+5R : AEP Aircraft initiated position report
+5U : WXR Weather request
+5V : VDL Switch Advisory
+5Y : ETA Revision to previous ETA
+5Z : AGM Airline designated downlink
+7A : ENG Aircraft initiated engine data
+7B : ABM Aircraft initiated misc.message
+80 : specific 3C03 position report format
+81 : Aircraft addressed downlinks
+82 : Aircraft addressed downlinks
+83 : Aircraft addressed downlinks
+84 : Aircraft addressed downlinks, S.A.S. Free Text Message
+85 : Aircraft addressed downlinks
+86 : Aircraft addressed downlinks
+87 : Aircraft addressed downlinks
+88 : Aircraft addressed downlinks
+89 : Aircraft addressed downlinks
+80 : Aircraft addressed downlinks
+8A : SAS Out report
+8B : SAS Off report
+8C : SAS On report
+8D : SAS In report
+8E : SAS Out/return in report
+8G : SAS Take off data calculation request
+8H : SAS Loadsheet request/confirmation
+8I : SAS Flightplan request
+8J : SAS Crewlist request
+8X : Uplink ATIS Information
+8Z : Avionics unable to process data
+99 : Emergency Situation Report
+A0 : ATS Facility Notification
+A1 : CLX Deliver oceanic clearance
+A2 : CLD Deliver departure clearance
+A3 : Departure Clearance
+A4 : RCA Acknowledge PDC
+A5 : RPR Request position report
+A6 : RAR Request ADS report
+A7 : FTU Forward free text to aircraft
+A8 : DDS Deliver departure slot
+A9 : DAI Deliver ATIS information
+A0 : AFN ATIS Facilities notification
+AA : ATC Communications
+AB : Terminal Weather Information for Pilots
+AC : Pushback Clearance uplink
+AD : Expected Taxi Clearance
+AE : Unassigned
+AF : CPC Command Response
+AG : Unassigned
+AW : ATS Wind Data
+B0 : ATS Facility Notification
+B1 : RCL Request oceanic clearance
+B2 : CLA Request oceanic readback
+B3 : RCD Request departure clearance
+B4 : Ackn. departure clearance
+B5 : PPR Provide position report
+B6 : PAR Provide ADS report
+B7 : FTD Forward free text to ATS
+B8 : RDS Request departure slot
+B9 : RAI Request ATIS information
+BA : ATC Communication
+BB : Terminal Weather Information for Pilots
+BC : Pushback Clearance Request
+BD : Expected Taxi Clearance Request
+BE : CPC Log-on/Log-off Request
+BF : CPC WILCO
+BG : Unassigned
+BW : ATS Wind Response
+C0 : Uplink msg. to all cockpit printers
+C1 : Uplink msg. to cockpit printer #1
+C2 : Uplink msg. to cockpit printer #2
+C3 : Uplink msg. to cockpit printer #3
+CA : Printer status = error
+CB : Printer status = busy
+CC : Printer status = local
+CD : Printer status = no paper
+CE : Printer status = buffer overrun
+CF : Printer status = reserved
+DL : Reserved for Data Loading
+D  : De-Icing Downlinks
+DI : De-Icing Uplinks
+DL : Data Loading
+EI : Internet Email Message
+E1 : Internet Email Message
+E2 : Internet
+EL : Left Engine Monitoring Unit Message Downlink
+ER : Right Engine Monitoring Unit Message Downlink
+F3 : Dedicated transceiver advisory
+H1 : Message to/from terminal
+H2 : Meteorological Report
+H3 : Icing Report
+H4 : Meteorological Report Configuration Downlink
+HF : HFDL Message
+HX : REJ Undelivered uplink report
+KB : Loopback Request/Response
+LB : Cabin E-Logbook
+LC : Cabin E-Logbook
+LS : Technical (Cockpit) E-Logbook
+LT : Technical (Cockpit) E-Logbook
+MA : Miam Messages
+MB : Miam Messages
+MZ : Miam Messages
+M1 : MVA IATA Departure message
+M2 : MVA IATA Arrival message
+M3 : MVA IATA Return to ramp message
+M4 : MVA IATA Return from airborne message
+P0 : AMS-Protected Downlink Message, Test System Destination
+P1 : AMS-Protected AOC Message
+P2 : AMS-Protected AOC Message
+P3 : AMS-Protected AOC Message
+P4 : AMS-Protected AOC Message
+P5 : AMS-Protected AOC Message
+P6 : Unassigned
+P7 : AMS-Protected Uplink ATS Message
+P8 : AMS-Protected Uplink AMS-Specific Message
+P9 : AMS-Protected Uplink AOC Message
+PA : AMS-Protected Downlink ATS Message
+PB : AMS-Protected Downlink AMS-Specific Message
+PC : AMS-Protected Downlink AOC Message
+Q0 : CARS link test
+Q1 : ETA Departure/arrival reports
+Q2 : ETA ETA reports
+Q3 : CLK Clock update
+Q4 : Voice circuit busy (response to 54)
+Q5 : Unable to process uplinked messages
+Q6 : Voice-to-ACARS change-over.
+Q7 : DLA Delay message
+QA : DEP Out/fuel report
+QB : DEP Off report
+QC : ARR On report
+QD : ARR In/fuel report
+QE : DEP Out/fuel destination report
+QF : DEP Off/destination report
+QG : RTN Out/return in report
+QH : DEP Out report
+QK : ARR Landing report
+QL : ARR Arrival report
+QM : ARR Arrival information report
+QN : DIV Diversion report
+QP : OUT Report
+QQ : OFF Report
+QR : ON Report
+QS : IN Report
+QT : OUT / Return IN Report
+QU : Unassigned
+QV : Autotune Reject
+QX : Intercept
+RA : RPR Command aircraft term. to transmit data
+RB : Response of aircraft terminal to RA msg
+RE : Refuel-Admin & General Purpose
+RF : Refuel-CG Targeting
+RG :	Registration
+S1 : VHF Network Statistics Report
+S2 : VHF Performance Report
+S3 : LRU Configuration Report
+SA : Media Advisory
+SQ : Squitter Report
+UP : Message Acknowledgement
+V0 : Supplier Defined Message
+V9 : Supplier Defined Message
+VA : Supplier Defined Message
+VZ : Supplier Defined Message
+WP : Potable Water Remote Pre-selection
+X1 : Service Provider Defined
+X9 : Service Provider Defined
+_D : General Response
+_J : No info to TX
