@@ -8,26 +8,27 @@ Créé le 14 jan 2019
 
 from scipy.io.wavfile import read, write
 import numpy as np
+import ACARS2023_affichage as AC
+
 from datetime import datetime
 from datetime import date
 import time
 from scipy import signal
 
-import ACARS2023_affichage as AC
 
+# SET UP :
 
-# SET UP your path here :
-
-PATH="C:/Users/thepe/Documents/RTL-SDR/Enregistrements_Python/"
-ACARS_SIGNAL = "ACARS_signal_"
-ACARS_RECORD = "_enreg_analyse_ACARS_"
+#PATH="C:/Users/thepe/Documents/RTL-SDR/Enregistrements_Python/"
+#ACARS_SIGNAL = "ACARS_signal_"
+#ACARS_RECORD = "_enreg_analyse_ACARS_"
 
 #-----------------------------
 
-sequencesynchro0="011010000110100010000000"
-sequencesynchro1="100101111001011101111111"
 
-RATE=48000
+sequencesynchro0 = "011010000110100010000000"
+sequencesynchro1 = "100101111001011101111111"
+
+RATE = 48000
 CHANNELS = 2
 FREQ = 2400
 
@@ -59,7 +60,7 @@ def trouvesignal(chaine):
         return("rien")
 
 def inv01(chaine): #inverse les valeurs 0 et 1 d'une chaine
-    result=""
+    result = ""
     for b in chaine:
         if b == "0":
             result += "1"
@@ -95,7 +96,7 @@ def lance1(stream1, sample_c, rb, rb2, numero, heure):
         if rb.GetSelection() == 1:
             fini = True
 
-def lance2a(stream2, sample_c, rb2):
+def lance2a(stream2, sample_c, rb2, liste_config):
     global nfich
     try: 
      # maintenant qu'on a trouvé un signal,
@@ -104,7 +105,7 @@ def lance2a(stream2, sample_c, rb2):
      
      if rb2.GetSelection() == 0:
          chainefic = np.fromstring(chaine0, np.int16) 
-         write(PATH + str(datetime.today())[:10] + ACARS_RECORD + str(nfich) + ".wav", RATE, chainefic)
+         write(liste_config[7] + str(datetime.today())[:10] + liste_config[8] + str(nfich) + ".wav", RATE, chainefic)
     except IOError: 
      print("Error Recording")
     
@@ -113,7 +114,7 @@ def lance2a(stream2, sample_c, rb2):
     return chaine0
 
 
-def lancetest1(stream0, heure):
+def lancetest1(stream0, heure, liste_config):
     #on analyse le signal complet
     print("lancetest1")
     st2 = ''
@@ -143,7 +144,7 @@ def lancetest1(stream0, heure):
             imax = i
     
     Decalage = imax / RATE    
-
+   
     listeslice = ""    
 
     PERIODE = int(CHANNELS * RATE / FREQ)    
@@ -179,9 +180,9 @@ def lancetest1(stream0, heure):
 
     if affiche:
         print(str(datetime.now()))
-        retour = AC.miseenforme(test01) 
+        retour = AC.miseenforme(test01, liste_config) 
         date1 = date.today()
-        fichier = open(PATH + ACARS_SIGNAL + str(date1) + ".html","a")
+        fichier = open(liste_config[5] + liste_config[6] + str(date1) + ".html","a")
         dateaffiche = str(date1) + " à " + str(heure.hour) + "h" + str(heure.minute) + "m" + str(heure.second) + "s"
         st2 = '<font color="black">' + str(date1) + " à " + str(heure.hour) + "h" + str(heure.minute) + "m" + str(heure.second) + "s" + '</font>' + '<br>'
 
