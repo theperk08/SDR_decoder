@@ -5,6 +5,7 @@ Créé le 28 déc 2018
 
 @author: manu_musy
 """
+
 import threading #très important pour ne pas bloquer le GUI
 verrou=threading.RLock()
 
@@ -21,6 +22,14 @@ import numpy as np
 
 import ACARS2023 as AC23
 import POCSAG_2023_Decodage_En_Direct as POC23
+
+
+f_config = open('Config.ini', 'r')
+liste_c = f_config.readlines()
+
+liste_config = []
+for k in liste_c:
+    liste_config += [k.split('"')[1]]
 
 global nfichtest
 nfichtest=0
@@ -45,8 +54,6 @@ stream = pa.open(format = FORMAT,
      rate = RATE,         
      input = True,         
      frames_per_buffer = SAMPLE_CYCLES)
-
-#thresh_final=THRESH
 
 
 class DemoPanel(wx.Panel):
@@ -91,6 +98,10 @@ class DemoPanel(wx.Panel):
 
         self.Test1 = wx.Button(self,label = "depuis : " + str(heuredepart) ,size = (115,30))
         self.MsgBtnTest = wx.Button(self,label = "(zone de test)", size = (250,90))
+        
+        self.MsgBtnTest.SetLabel("")
+
+        
         self.Rb1 = wx.RadioBox(self,label = "Type de Messages", choices = ["Acars", "POCSAG"], style = wx.RA_SPECIFY_COLS)
         #les choix de RadioBox ont pour base index=0, à récupérer avec evt.GetInt() ou GetSelection(self.Rb1)
         self.Rb1.Bind(wx.EVT_RADIOBOX,self.RadioChoix)
@@ -250,12 +261,12 @@ class ThreadAcars(threading.Thread):
         #SAMPLE_CYCLES = int(RATE*SAMPLE_PERIOD)
         self.pa2 = pyaudio.PyAudio()
         self.stream2 = self.pa2.open(format = FORMAT, channels = CHANNELS, rate = RATE, input = True, frames_per_buffer = SAMPLE_CYCLES)
-        self.stream0 = AC23.lance2a(self.stream2,SAMPLE_CYCLES,self.panela.Rb2)
+        self.stream0 = AC23.lance2a(self.stream2, SAMPLE_CYCLES,self.panela.Rb2, liste_config)
         heure = datetime.now()
         
         global scrolposition
         with verrou:
-            retour1 = AC23.lancetest1(self.stream0, heure)
+            retour1 = AC23.lancetest1(self.stream0, heure, liste_config)
             
             if not(retour1[0] == ''):
                 scrolposition=retour1[1]
@@ -297,7 +308,9 @@ class MyThread(threading.Thread ):
             if not(retour1 == ''):
                 t = ThreadAcars(stream, SAMPLE_CYCLES, self.panel, self.numero)
         else:
-            retour1 = POC23.lancePOC(stream, SAMPLE_CYCLES, self.panel.Rb1, self.panel.Rb2, self.panel.Rb3)
+            retour1 = POC23.lancePOC(stream, SAMPLE_CYCLES,
+                                     self.panel.Rb1, self.panel.Rb2, self.panel.Rb3,
+                                     liste_config)
             mode = "POCSAG"
             if not(retour1[0] == ''):
                 scrolposition = retour1[1]
