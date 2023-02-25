@@ -32,10 +32,12 @@ Then, be sure to have all these libraries in your python environment :
   - wx
   - subprocess
 ```  
-**IMPORTANT** : you also need a special library to decode some specifics ACARS messages :
-  ```
-  libacars (which contains the executable file : decode_arinc.exe)
-  ```
+**IMPORTANT** : you also need to download a special library to decode some specifics ACARS messages :
+  
+  [libacars](https://github.com/szpajder/libacars/releases/tag/v1.2.0) which contains the executable file : decode_arinc.exe :  
+  
+  libacars, Copyright (c) 2018-2021 Tomasz Lemiech szpajder@gmail.com
+ 
  
 <b>Then, edit the Config.ini file to set up paths and names for your files</b>
 
