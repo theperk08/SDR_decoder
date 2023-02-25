@@ -14,12 +14,6 @@ from scipy.io.wavfile import read, write
 import numpy as np
 import POCSAG2023decodagechaine as pcs
 
-# SET UP your path and generice name for the audio record file
-
-PATH="C:/Users/thepe/Documents/RTL-SDR/Enregistrements_Python/"
-POCSAG_RECORD = "_enreg_analyse_POCSAG_"
-
-#------------------------------------
 
 RATE = 48000
 SPEED1 = 2400
@@ -38,10 +32,8 @@ adidle_belge = "01111010100110100100100111000000"
 
 adentete_infirmier = "10101010101010101010101011010010"
 
-
 global nfich
 nfich=0
-
 
 def bits01_inf(liste, speed):
     #print('longueur liste',len(liste))
@@ -127,30 +119,30 @@ def bits01(liste, speed):
             bits_deco[k] = -20000
         
     compte = 0
-    for j in range(start+1, liste.size-4*CNT, 4*CNT):
+    for j in range(start + 1, liste.size - 4 * CNT, 4 * CNT):
         somme = 0
-        for i in range(4*CNT):
-            somme += bits_deco[j+i]
+        for i in range(4 * CNT):
+            somme += bits_deco[j + i]
         if somme > 0:
             #bits_01[compte] = 1
             bits_01 += "1"
         else:
             #bits_01[compte] = 0
             bits_01 += "0"
-        compte +=1
+        compte += 1
     #print(bits_01)
     return bits_01
 
 
-def lancePOC(stream1,sample_c1,rb,rb2,rb3):   
+def lancePOC(stream1,sample_c1, rb, rb2, rb3, liste_config):   
     
-    ab=0
-    trouve=False
+    ab = 0
+    trouve = False
 
-    while trouve==False:
+    while trouve == False:
 
         try: 
-         chaine0=stream1.read(sample_c1*3) 
+         chaine0 = stream1.read(sample_c1 * 3) 
         except IOError: 
          print("Error Recording") 
     
@@ -186,33 +178,32 @@ def lancePOC(stream1,sample_c1,rb,rb2,rb3):
 
         #on recherche d'abord la fréquence des premiers 0 et 1
         
-        trouve=False        
+        trouve = False        
         
-        if len(bits_str)>20 and (index01 in bits_str): #parfois échantillon trop petit ou inexistant à cause du try error
-            trouve=True
+        if len(bits_str) > 20 and (index01 in bits_str): #parfois échantillon trop petit ou inexistant à cause du try error
+            trouve = True
             print('trouvé')
             print(bits_str)
             
         if trouve:
-            
-            chaine2=''
+            chaine2 = ''
     
         # Logiquement, on obtient une fréquence de base d'environ 80, donc entre 70 et 90
 
             try: 
-             chaine0=stream1.read(sample_c1*60) 
+             chaine0 = stream1.read(sample_c1 * 60) 
             except IOError: 
              print("Error Recording")
             #global nfich
-            nfich+=1
-            chainefic=np.fromstring(chaine0, np.int16)
+            nfich += 1
+            chainefic = np.fromstring(chaine0, np.int16)
             if rb2.GetSelection() == 0:
                  #chainefic=np.fromstring(chaine0, np.int16)
-                 write(PATH + str(datetime.today())[:10] + POCSAG_RECORD + str(nfich)+".wav",RATE,chainefic)
+                 write(liste_config[3] + str(datetime.today())[:10] + liste_config[4] + str(nfich)+".wav",RATE,chainefic)
                         
 
-            chaine=""
-            chainenot=""
+            chaine = ""
+            chainenot = ""
 
             #on recherche d'abord la fréquence des premiers 0 et 1
             #et on traduit en bits de 0 et 1
@@ -230,14 +221,14 @@ def lancePOC(stream1,sample_c1,rb,rb2,rb3):
       
             if adentete0 in chaine:
 
-                chaine2=chaine[chaine.index(adentete0)-3:]
+                chaine2 = chaine[chaine.index(adentete0)-3:]
             #Si on a bien une succession de 0 et de 1, reste plus qu'à trouver trouver le début du message
             if adentete1 in chaine:
 
-                chaine2=chaine[chaine.index(adentete1)-3:]
-                chaine2=chaine2.replace("0","2")
-                chaine2=chaine2.replace("1","0")
-                chaine2=chaine2.replace("2","1")
+                chaine2 = chaine[chaine.index(adentete1) - 3:]
+                chaine2 = chaine2.replace("0", "2")
+                chaine2 = chaine2.replace("1", "0")
+                chaine2 = chaine2.replace("2", "1")
 
             if adentete_infirmier in chaine:
                 chaine2 = chaine[chaine.index(adentete_infirmier):]
@@ -246,9 +237,9 @@ def lancePOC(stream1,sample_c1,rb,rb2,rb3):
             print(chaine2)
             print('')
             
-            return pcs.decodagepocsag(chaine2, idle, rb3)
+            return pcs.decodagepocsag(chaine2, idle, rb3, liste_config)
         
-        if rb.GetSelection()==0:
-            fini=True
+        if rb.GetSelection() == 0:
+            fini = True
             return ''
 
