@@ -36,13 +36,6 @@ from subprocess import Popen, PIPE
 from datetime import datetime
 
 import ACARS2023_Labels as Alab
-
-
-# SET UP your path for the decode_arinc.exe file :
-
-path = r'C:\Users\thepe\Documents\RTL-SDR\libacars-1.1.0-win64\bin\decode_arinc.exe'
-
-# ------------------------------------------------
                   
 asciitable = ["NUL","SOH","STX","ETX","EOT","ENQ","ACK","BEL","BS","TAB","LF","VT","FF","CR","SO","SI","DLE","DC1","DC2","DC3","DC4","NAK","SYN","ETB","CAN","EM","SUB","ESC","FS","GS","RS","US","SPACE"]
 nbchif = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -117,7 +110,7 @@ def non(ch0): #renverse une chaine de 0 en 1 et inversement
     return d1
 
 
-def affichage(mess): #bel affichage en html avec couleur
+def affichage(mess, liste_config): #bel affichage en html avec couleur
 
     colerreur = 'fuchsia'
     
@@ -247,7 +240,7 @@ def affichage(mess): #bel affichage en html avec couleur
             
             argu = 'u "' + texte3b + '"'
             print(argu)
-            chaines = path + ' ' + argu
+            chaines = liste_config[0] + ' ' + argu
         
             p = Popen(chaines, stdout = PIPE, bufsize = 1)
             FiniL = False
@@ -270,5 +263,133 @@ def affichage(mess): #bel affichage en html avec couleur
                 raise RuntimeError("%r failed,exit status: %d" % (chaines, p.returncode))
     texte += [texte2 + '</table>']
     return(texte)
+
+
+# TEST EN COURS DE DEVELOPPEMENT
+def brut(messaged):
+    pass
+    
+    d2 = messaged
+
+    message2 = [""] #message brut sans recherche d'erreurs
+    i = 0
+    for i in range(int(len(d2) / 8)):
+        s1 = ""
+        for k in range(7):
+            s1 += d2[8*i+6-k]
+        
+        numero = int("0b"+s1,2)
+        
+        if numero <= 32:
+                carac = asciitable[numero]
+        else:
+            if numero == 127:
+                carac = "DEL"
+            else:
+                carac = chr(numero)
+       
+        message2+=[carac]
+    return message2
+
+
+
+def miseenforme(ch2, liste_config):
+    pass
+    
+    d2=[]
+    
+    for k in ch2:
+        d2+=[k]
+
+    message2=brut(d2)
+    
+    if 0<0:
+        d2m = []
+    
+        for k in ch2m:
+            d2m += [k]
+        message2m = brut(d2m)
+    
+        d2p = []
+    
+        for k in ch2p:
+            d2p += [k]
+        message2p = brut(d2p)
+
+    #tentative recherche message avec correction d'erreurs        
+    if False:
+        d3 = non(d2)
+        message = [""]
+        numeronot = 0
+        i = 0
+        position = 1
+        fini = False
+        avantarriere = [1,0] #pour savoir de combien en avant ou en arrière on recherche les bits erreurs
+            
+        while i + 8 < len(d2) and fini == False:
+            c = ""
+            cnot = ""
+            ok = parite(d2[i : i + 8], position)
+            
+            if ok == True:
+        
+                for k in range(8):
+                    c += d2[i + k]
+                    
+                numero = int("0b" + c[::-1][1:], 2)
+                
+                if numero <= 32:
+                    carac = asciitable[numero]
+                else:
+                    if numero == 127:
+                        carac = "DEL"
+                    else:
+                        carac = chr(numero)
+                
+                message += [carac]
+                i += 8
+                position += 1
+                avantarriere = [1,0]
+            
+                if False:
+                    if numeronot <= 32:
+                        carac = asciitable[numeronot]
+                    else:
+                        if numeronot == 127:
+                            carac = "DEL"
+                        else:
+                            carac = chr(numeronot)
+                    
+                    messagenot += [carac]
+            else:
+                if i > 0 and i + 9 < len(d2):
+                    if avantarriere[0] == 1:
+                        i -= 1
+                    else:
+                        i += 1
+                    avantarriere[0] = 0
+                   
+                    for n in range(len(d3)):
+                        d2[n] = d3[n]
+                    s1 = 0
+                    for m in range(6):
+                        s1 += int(d2[i + m + 1])
+                    #on corrige pour avoir un bit de parité cohérent
+                    if s1 % 2 == int(d2[i + 7]):
+                        d2[i] = "1"
+                    else:
+                        d2[i] = "0"
+                    faux1 = 1
+                    
+                else:
+                    fini = True    
+
+    print("Message brut")
+
+    texteaff2 = affichage(message2, liste_config)
+
+    return("", texteaff2)
+
+
 
 
