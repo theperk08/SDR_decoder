@@ -1,11 +1,11 @@
 # SDR_decoder
-SDR decoder for POCSAG and ACARS messages
+--> SDR decoder for POCSAG and ACARS messages
 
 ---------
-**WARNING** :
-only for personal use
-  I'm not a professional
-  this is only an amateur and personal project
+> __Warning__:  
+<b>Only for personal use  
+I'm not a professional  
+This is only an amateur and personal project</b>  
 ---------
 
 ## REQUIREMENTS
