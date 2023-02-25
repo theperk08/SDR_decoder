@@ -36,16 +36,8 @@ Then, be sure to have all these libraries in your python environment :
   ```
   libacars (which contains the executable file : decode_arinc.exe)
   ```
-  --> after installing it :
-     **edit the file ACARS2023_affichage.py
-     and modify your path for the decode_arinc.exe file**
-
-You also have to modify these files to set up your directory in order to :
-```
-  - save the html file for the POCSAG messages : POCSAG2023decodagechaine.py
-  - save the audio files for the POCSAG messages (optional) : POCSAG_2023_Decodage_En_Direct.py
-  - save the html file and the audio files (optional) for the ACARS messages : ACARS2023.py
-  ```
+ 
+<b>Then, edit the Config.ini file to set up paths and names for your files</b>
 
 
 ## USAGE
@@ -62,7 +54,8 @@ You also have to modify these files to set up your directory in order to :
 ```
   - Select the type of Message (ACARS or POCSAG)
   - then click on 'Démarrer'  
-  - If you choose POCSAG, you have to choose the Bitrate option (the 1200-Infirmier is still in development)  
+  - If you choose POCSAG, you have to choose the Bitrate option (the 1200-Infirmier is still in development)
+  - You can choose to save the audio files (Enreg fichiers audios : Oui/Yes or Non/No)
   ```
 (sometimes, changing between ACARS and POCSAG may cause troubleshooting, so click on 'stopper' before changing, or re-run the program if it fails)  
 
