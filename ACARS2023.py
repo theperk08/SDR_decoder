@@ -15,23 +15,12 @@ from datetime import date
 import time
 from scipy import signal
 
-
-# SET UP :
-
-#PATH="C:/Users/thepe/Documents/RTL-SDR/Enregistrements_Python/"
-#ACARS_SIGNAL = "ACARS_signal_"
-#ACARS_RECORD = "_enreg_analyse_ACARS_"
-
-#-----------------------------
-
-
 sequencesynchro0 = "011010000110100010000000"
 sequencesynchro1 = "100101111001011101111111"
 
 RATE = 48000
 CHANNELS = 2
 FREQ = 2400
-
 
 global nfich #pour numéroter les fichiers d'enregistrements
 nfich=0
