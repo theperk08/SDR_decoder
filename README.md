@@ -4,7 +4,6 @@
 ---------
 > __Warning__:  
 <b>Only for personal use  
-I'm not a professional  
 This is only an amateur and personal project</b>  
 ---------
 
