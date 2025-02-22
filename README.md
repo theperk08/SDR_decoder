@@ -28,7 +28,7 @@ Then, be sure to have all these libraries in your python environment :
   - scipy
   - wave
   - pyaudio
-  - wx
+  - wx (wxPython)
   - subprocess
 ```  
 **IMPORTANT** : you also need to download a special library to decode some specifics ACARS messages :
